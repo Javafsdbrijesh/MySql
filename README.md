@@ -3,17 +3,8 @@ A relational database consists of multiple related tables linking together using
 
 For example, in the sample database, we have the orders and orderdetails tables that are linked using the orderNumber column:
 
-              
-
-
 To get complete order’s information, you need to query data from both orders and  orderdetails tables.
 That’s why joins come into the play.
-
-
-
-
-
-
 
 JOINs
 A join is a method of linking data between one (self-join) or more tables based on values of the common column between the tables.
@@ -45,62 +36,50 @@ VALUES('John'),('Jane'),('Mary'),('David'),('Amelia');
 INSERT INTO committees(name)
 VALUES('John'),('Mary'),('Amelia'),('Joe');
 
-
-
-
-
-
-
-
-
 Third, query data from the tables members and committees:
 SELECT * FROM members;
 
 +-----------+--------+
+
 | member_id | name   |
+
 +-----------+--------+
-|         1 | John   |
-|         2 | Jane   |
-|         3 | Mary   |
-|         4 | David  |
-|         5 | Amelia |
-+-----------+--------+
-5 rows in set (0.00 sec)
+
+|         1 |     John   |
+
+|         2 |     Jane   |
+
+|         3 |   	Mary   |
+
+|         4 |  	 David  |
+
+|         5 |  	 Amelia |
+
++-----------+--------+ 
+
 
 SELECT * FROM committees;
 
-+--------------+--------+
-| committee_id | name   |
-+--------------+--------+
-|            1 | John   |
-|            2 | Mary   |
-|            3 | Amelia |
-|            4 | Joe    |
-+--------------+--------+
-4 rows in set (0.00 sec)
++--------------+--------+		
+
+| committee_id | name   |		
+
++--------------+--------+		
+
+|            1 | John   |	
+
+|            2 | Mary   |	
+
+|            3 | Amelia |		
+
+|            4 | Joe    |		
+
++--------------+--------+		
 
 
 
 
 Some members are committee members, and some are not. On the other hand, some committee members are in the members table, some are not.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 MySQL INNER JOIN clause
@@ -133,11 +112,17 @@ Code language: SQL (Structured Query Language) (sql)
 
 
 +-----------+--------+--------------+-----------+
+
 | member_id | member | committee_id | committee |
+
 +-----------+--------+--------------+-----------+
+
 |         1 | John   |            1 | John      |
+
 |         3 | Mary   |            2 | Mary      |
+
 |         5 | Amelia |            3 | Amelia    |
+
 +-----------+--------+--------------+-----------+
 3 rows in set (0.00 sec)
 In this example, the inner join clause use the values in the name columns in both tables members and committees to match.
@@ -191,14 +176,23 @@ FROM
 LEFT JOIN committees c USING(name);
 
 +-----------+--------+--------------+-----------+
+
 | member_id | member | committee_id | committee |
+
 +-----------+--------+--------------+-----------+
+
 |         1 | John   |            1 | John      |
+
 |         2 | Jane   |         NULL | NULL      |
+
 |         3 | Mary   |            2 | Mary      |
+
 |         4 | David  |         NULL | NULL      |
+
 |         5 | Amelia |            3 | Amelia    |
+
 +-----------+--------+--------------+-----------+
+
 5 rows in set (0.00 sec)
 Code language: plaintext (plaintext)
 The following Venn diagram illustrates the left join:
@@ -234,25 +228,21 @@ WHERE c.committee_id IS NULL;
 
 
 +-----------+--------+--------------+-----------+
+
 | member_id | member | committee_id | committee |
+
 +-----------+--------+--------------+-----------+
+
 |         2 | Jane   |         NULL | NULL      |
+
 |         4 | David  |         NULL | NULL      |
+
 +-----------+--------+--------------+-----------+
 
 
 
 Generally, this query pattern can find rows in the left table that do not have corresponding rows in the right table.
 This Venn diagram illustrates how to use the left join to select rows that only exist in the left table:
- 
-
-
-
-
-
-
-
-
 
 
 MySQL RIGHT JOIN clause
@@ -292,12 +282,19 @@ RIGHT JOIN committees c on c.name = m.name;
 
 
 +-----------+--------+--------------+-----------+
+
 | member_id | member | committee_id | committee |
+
 +-----------+--------+--------------+-----------+
+
 |         1 | John   |            1 | John      |
+
 |         3 | Mary   |            2 | Mary      |
+
 |         5 | Amelia |            3 | Amelia    |
+
 |      NULL | NULL   |            4 | Joe       |
+
 +-----------+--------+--------------+-----------+
 
 
@@ -329,9 +326,13 @@ WHERE m.member_id IS NULL;
 
 
 +-----------+--------+--------------+-----------+
+
 | member_id | member | committee_id | committee |
+
 +-----------+--------+--------------+-----------+
+
 |      NULL | NULL   |            4 | Joe       |
+
 +-----------+--------+--------------+-----------+
 1 row in set (0.00 sec)
 
@@ -364,28 +365,51 @@ FROM
 CROSS JOIN committees c;
 
 +-----------+--------+--------------+-----------+
+
 | member_id | member | committee_id | committee |
+
 +-----------+--------+--------------+-----------+
+
 |         1 | John   |            4 | Joe       |
+
 |         1 | John   |            3 | Amelia    |
+
 |         1 | John   |            2 | Mary      |
+
 |         1 | John   |            1 | John      |
+
 |         2 | Jane   |            4 | Joe       |
+
 |         2 | Jane   |            3 | Amelia    |
+
 |         2 | Jane   |            2 | Mary      |
+
 |         2 | Jane   |            1 | John      |
+
 |         3 | Mary   |            4 | Joe       |
+
 |         3 | Mary   |            3 | Amelia    |
+
 |         3 | Mary   |            2 | Mary      |
+
 |         3 | Mary   |            1 | John      |
+
 |         4 | David  |            4 | Joe       |
+
 |         4 | David  |            3 | Amelia    |
+
 |         4 | David  |            2 | Mary      |
+
 |         4 | David  |            1 | John      |
+
 |         5 | Amelia |            4 | Joe       |
+
 |         5 | Amelia |            3 | Amelia    |
+
 |         5 | Amelia |            2 | Mary      |
+
 |         5 | Amelia |            1 | John      |
+
 +-----------+--------+--------------+-----------+
 20 rows in set (0.00 sec)
 
